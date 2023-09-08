@@ -57,7 +57,7 @@ public class CategoryService {
 
     public boolean editCategory(Long categoryId, Category category) {
         
-        //Validate product
+        //Validate category
         if (category== null || category.getName().isBlank() ) {
             return false;
         }

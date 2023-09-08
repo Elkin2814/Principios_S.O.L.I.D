@@ -50,7 +50,7 @@ public class GUICategory extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Productos");
+        setTitle("Category");
 
         pnlSouth.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -113,23 +113,23 @@ public class GUICategory extends javax.swing.JFrame {
         getContentPane().add(pnlSouth, java.awt.BorderLayout.SOUTH);
 
         pnlCenter.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlCenter.setLayout(new java.awt.GridLayout(3, 2));
+        pnlCenter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("*Id:");
-        pnlCenter.add(jLabel1);
+        pnlCenter.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 84));
 
         txtId.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtIdFocusLost(evt);
             }
         });
-        pnlCenter.add(txtId);
+        pnlCenter.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 295, 84));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Nombre:");
-        pnlCenter.add(jLabel2);
-        pnlCenter.add(txtName);
+        pnlCenter.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 295, 84));
+        pnlCenter.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 295, 84));
 
         getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 

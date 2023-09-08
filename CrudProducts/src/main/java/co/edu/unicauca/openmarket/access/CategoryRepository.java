@@ -83,7 +83,7 @@ public class CategoryRepository implements ICategoryRepository{
             //this.connect();
 
             String sql = "DELETE FROM category "
-                    + "WHERE category = ?";
+                    + "WHERE categoryId = ?";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
             pstmt.setLong(1, id);
@@ -110,7 +110,7 @@ public class CategoryRepository implements ICategoryRepository{
 
             if (res.next()) {
                 Category categ = new Category();
-                categ.setCategoryId(res.getLong("CategoryId"));
+                categ.setCategoryId(res.getLong("categoryId"));
                 categ.setName(res.getString("name"));
                 return categ;
             } else {
@@ -165,7 +165,7 @@ public class CategoryRepository implements ICategoryRepository{
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 Category categ = new Category();
-                categ.setCategoryId(rs.getLong("categoryId"));
+                categ.setCategoryId(rs.getLong("categorytId"));
                 categ.setName(rs.getString("name"));
                 categories.add(categ);
             }

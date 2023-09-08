@@ -79,7 +79,7 @@ public class AssistentDB implements IAssistentDB {
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS category (\n"
                 + "	categorytId integer PRIMARY KEY AUTOINCREMENT,\n"
-                + "	name text NOT NULL,\n"
+                + "	name text NOT NULL\n"
                 + ");";
 
         try {
