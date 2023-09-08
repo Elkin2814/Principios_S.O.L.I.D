@@ -17,7 +17,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        IProductRepository repository = Factory.getInstance().getRepository("default");
+        IProductRepository repository = Factory.getInstance().getRepositoryProduct("default");
         ProductService productService = new ProductService(repository);
         
         GUIProducts instance = new GUIProducts(productService);

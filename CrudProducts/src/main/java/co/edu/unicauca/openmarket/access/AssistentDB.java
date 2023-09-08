@@ -55,12 +55,31 @@ public class AssistentDB implements IAssistentDB {
     }
 
     @Override
-    public void initDatabase() {
+    public void initDatabaseProduct() {
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS products (\n"
                 + "	productId integer PRIMARY KEY AUTOINCREMENT,\n"
                 + "	name text NOT NULL,\n"
                 + "	description text NULL\n"
+                + ");";
+
+        try {
+            this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(sql);
+            //this.disconnect();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     @Override
+    public void initDataBaseCategory() {
+        // SQL statement for creating a new table
+        String sql = "CREATE TABLE IF NOT EXISTS category (\n"
+                + "	categorytId integer PRIMARY KEY AUTOINCREMENT,\n"
+                + "	name text NOT NULL,\n"
                 + ");";
 
         try {

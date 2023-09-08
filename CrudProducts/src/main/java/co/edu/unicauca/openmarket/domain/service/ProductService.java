@@ -56,6 +56,10 @@ public class ProductService {
     public boolean deleteProduct(Long id){
         return repository.delete(id);
     }
+    
+    public List<Product> findProductByName(String name){
+        return repository.findByName(name);
+    }
 
     public boolean editProduct(Long productId, Product prod) {
         

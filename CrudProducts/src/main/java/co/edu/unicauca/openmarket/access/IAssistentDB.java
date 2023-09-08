@@ -14,6 +14,8 @@ public interface IAssistentDB {
 
     void disconnect();
 
-    void initDatabase();
+    void initDatabaseProduct();
+    
+    void initDataBaseCategory();
     
 }

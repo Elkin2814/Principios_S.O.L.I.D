@@ -5,8 +5,8 @@
  */
 package co.edu.unicauca.openmarket.presentation;
 
-import co.edu.unicauca.openmarket.domain.Product;
-import co.edu.unicauca.openmarket.domain.service.ProductService;
+import co.edu.unicauca.openmarket.domain.Category;
+import co.edu.unicauca.openmarket.domain.service.CategoryService;
 import co.edu.unicauca.openmarket.infra.Messages;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -15,18 +15,18 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Libardo Pantoja
  */
-public class GUIProductsFind extends javax.swing.JDialog {
+public class GUICategoryFind extends javax.swing.JDialog {
 
-    private ProductService productService;
+    private CategoryService categoryService;
 
     /**
      * Creates new form GUIProductsFind
      */
-    public GUIProductsFind(java.awt.Frame parent, boolean modal, ProductService productService) {
+    public GUICategoryFind(java.awt.Frame parent, boolean modal, CategoryService categoryService) {
         super(parent, modal);
         initComponents();
         initializeTable();
-        this.productService = productService;
+        this.categoryService = categoryService;
         setLocationRelativeTo(null); //centrar al ventana
     }
 
@@ -34,33 +34,33 @@ public class GUIProductsFind extends javax.swing.JDialog {
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Id", "Name", "Description"
+                    "Id", "Name"
                 }
         ));
     }
 
-    private void fillTable(List<Product> listProducts) {
+    private void fillTable(List<Category> listCategories) {
         initializeTable();
         DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
 
         Object rowData[] = new Object[3];//No columnas
-        for (int i = 0; i < listProducts.size(); i++) {
-            rowData[0] = listProducts.get(i).getProductId();
-            rowData[1] = listProducts.get(i).getName();
-            rowData[2] = listProducts.get(i).getDescription();
+        for (int i = 0; i < listCategories.size(); i++) {
+            rowData[0] = listCategories.get(i).getCategoryId();
+            rowData[1] = listCategories.get(i).getName();
+
 
             model.addRow(rowData);
         }
     }
 
-    private void fillTableById(Product pro) {
+    private void fillTableById(Category categ) {
         initializeTable();
         DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
 
-        Object rowData[] = new Object[3];//No columnas
-        rowData[0] = pro.getProductId();
-        rowData[1] = pro.getName();
-        rowData[2] = pro.getDescription();
+        Object rowData[] = new Object[2];//No columnas
+        rowData[0] = categ.getCategoryId();
+        rowData[1] = categ.getName();
+
 
         model.addRow(rowData);
 
@@ -162,7 +162,7 @@ public class GUIProductsFind extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnSearchAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchAllActionPerformed
-        fillTable(productService.findAllProducts());
+        fillTable(categoryService.findAllCategories());
     }//GEN-LAST:event_btnSearchAllActionPerformed
 
     public static boolean esLong(String cadena) {
@@ -178,12 +178,12 @@ public class GUIProductsFind extends javax.swing.JDialog {
         if (rdoId.isSelected() && !txtSearch.getText().isEmpty()) {
             if (esLong(txtSearch.getText().trim())) {
                 Long id = Long.parseLong(txtSearch.getText().trim());
-                fillTableById(productService.findProductById(id));
+                fillTableById(categoryService.findCategoryById(id));
             } else {
                 Messages.showMessageDialog("Ingreso una cadena", "Atención");
             }
         } else if (rdoName.isSelected() && !txtSearch.getText().isEmpty()) {
-            fillTable(productService.findProductByName(txtSearch.getText().trim()));
+            fillTable(categoryService.findCategoryByName(txtSearch.getText().trim()));
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 

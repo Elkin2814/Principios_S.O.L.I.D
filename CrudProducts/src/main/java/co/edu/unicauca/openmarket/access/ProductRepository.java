@@ -24,7 +24,7 @@ public class ProductRepository implements IProductRepository {
     
 
     public ProductRepository() {
-        conn.initDatabase();
+        conn.initDatabaseProduct();
     }
 
     @Override
@@ -146,6 +146,36 @@ public class ProductRepository implements IProductRepository {
                 prod.setName(res.getString("name"));
                 prod.setDescription(res.getString("description"));
                 return prod;
+            } else {
+                return null;
+            }
+            //this.disconnect();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    @Override
+    public List<Product> findByName(String name) {
+        try {
+             List<Product> products = new ArrayList<>();
+            String sql = "SELECT * FROM products  "
+                    + "WHERE name = ?";
+
+            PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
+            pstmt.setString(1, name);
+
+            ResultSet res = pstmt.executeQuery();
+
+            if (res.next()) {
+                Product prod = new Product();
+                prod.setProductId(res.getLong("productId"));
+                prod.setName(res.getString("name"));
+                prod.setDescription(res.getString("description"));
+                products.add(prod);
+                return products;
             } else {
                 return null;
             }
