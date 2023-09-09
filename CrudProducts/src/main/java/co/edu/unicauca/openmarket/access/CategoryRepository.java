@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author ideapad330S
  */
-public class CategoryRepository implements ICategoryRepository{
+public class CategoryRepository implements IRepository{
 
     private AssistentDB conn = new AssistentDB();
     
@@ -26,9 +26,10 @@ public class CategoryRepository implements ICategoryRepository{
         conn.initDataBaseCategory();
     }
     @Override
-    public boolean save(Category newCategory) {
+    public boolean save(Object o) {
     try {
-            //Validate product
+            Category newCategory = (Category) o;
+            //Validate category
             if (newCategory == null || newCategory.getName().isBlank()) {
                 return false;
             }
@@ -49,10 +50,11 @@ public class CategoryRepository implements ICategoryRepository{
     }
 
     @Override
-    public boolean edit(Long id, Category Cate) {
+    public boolean edit(Long id, Object o) {
+        Category Cate = (Category) o;
          try {
             //Validate product
-            if (id <= 0 || Cate == null) {
+            if (id <= 0 || o == null) {
                 return false;
             }
             //this.connect();
@@ -125,9 +127,9 @@ public class CategoryRepository implements ICategoryRepository{
     }
 
     @Override
-    public List<Category> findByName(String name) {
+    public List<Object> findByName(String name) {
         try {
-             List<Category> categories = new ArrayList<>();
+             List<Object> categories = new ArrayList<>();
             String sql = "SELECT * FROM category  "
                     + "WHERE name = ?";
 
@@ -154,8 +156,8 @@ public class CategoryRepository implements ICategoryRepository{
     }
 
     @Override
-    public List<Category> findAll() {
-         List<Category> categories = new ArrayList<>();
+    public List<Object> findAll() {
+         List<Object> categories = new ArrayList<>();
         try {
 
             String sql = "SELECT * FROM category";

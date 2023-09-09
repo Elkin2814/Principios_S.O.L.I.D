@@ -4,24 +4,24 @@
  */
 package co.edu.unicauca.openmarket.access;
 
-import co.edu.unicauca.openmarket.domain.Category;
+
 import java.util.List;
+
 
 /**
  *
  * @author ideapad330S
  */
-public interface ICategoryRepository {
+public interface IRepository {
+    boolean save(Object o );
     
-    boolean save(Category newCategory);
-    
-    boolean edit(Long id, Category Cate);
+    boolean edit(Long id , Object o );
     
     boolean delete(Long id);
 
-    Category findById(Long id);
+    Object findById(Long id);
     
-    List<Category> findByName(String name);
+    List<Object> findByName(String name);
     
-    List<Category> findAll();
+    List<Object> findAll();
 }

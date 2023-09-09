@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author Libardo, Julio
  */
-public class ProductRepository implements IProductRepository {
+public class ProductRepository implements IRepository {
 
     private AssistentDB conn = new AssistentDB();
     
@@ -28,8 +28,8 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public boolean save(Product newProduct) {
-
+    public boolean save(Object o) {
+        Product newProduct = (Product) o;
         try {
             //Validate product
             if (newProduct == null || newProduct.getName().isBlank()) {
@@ -53,8 +53,8 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public List<Product> findAll() {
-        List<Product> products = new ArrayList<>();
+    public List<Object> findAll() {
+        List<Object> products = new ArrayList<>();
         try {
 
             String sql = "SELECT * FROM products";
@@ -80,7 +80,8 @@ public class ProductRepository implements IProductRepository {
 
     
     @Override
-    public boolean edit(Long id, Product product) {
+    public boolean edit(Long id, Object o) {
+        Product product = (Product) o;
         try {
             //Validate product
             if (id <= 0 || product == null) {
@@ -129,7 +130,7 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public Product findById(Long id) {
+    public Object findById(Long id) {
         try {
 
             String sql = "SELECT * FROM products  "
@@ -158,9 +159,9 @@ public class ProductRepository implements IProductRepository {
     }
     
     @Override
-    public List<Product> findByName(String name) {
+    public List<Object> findByName(String name) {
         try {
-             List<Product> products = new ArrayList<>();
+             List<Object> products = new ArrayList<>();
             String sql = "SELECT * FROM products  "
                     + "WHERE name = ?";
 
@@ -186,5 +187,6 @@ public class ProductRepository implements IProductRepository {
         }
         return null;
     }
+
 
 }

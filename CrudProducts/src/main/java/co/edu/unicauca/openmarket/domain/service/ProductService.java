@@ -1,10 +1,11 @@
 package co.edu.unicauca.openmarket.domain.service;
 
 
-import co.edu.unicauca.openmarket.access.IProductRepository;
+import co.edu.unicauca.openmarket.access.IRepository;
 import co.edu.unicauca.openmarket.domain.Product;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -14,7 +15,7 @@ public class ProductService {
 
     // Ahora hay una dependencia de una abstracción, no es algo concreto,
     // no sabe cómo está implementado.
-    private IProductRepository repository;
+    private IRepository repository;
 
     /**
      * Inyección de dependencias en el constructor. Ya no conviene que el mismo
@@ -22,19 +23,18 @@ public class ProductService {
      *
      * @param repository una clase hija de IProductRepository
      */
-    public ProductService(IProductRepository repository) {
+    public ProductService(IRepository repository) {
         this.repository = repository;
     }
 
-
     public boolean saveProduct(String name, String description) {
-        
+
         Product newProduct = new Product();
         newProduct.setName(name);
         newProduct.setDescription(description);
-        
+
         //Validate product
-        if (newProduct.getName().isBlank() ) {
+        if (newProduct.getName().isBlank()) {
             return false;
         }
 
@@ -43,28 +43,38 @@ public class ProductService {
     }
 
     public List<Product> findAllProducts() {
-        List<Product> products = new ArrayList<>();
-        products = repository.findAll();;
+        List<Object> listaObjetos = new ArrayList<>();
+        listaObjetos = repository.findAll();
+        List<Product> listaProducts = listaObjetos.stream()
+                .filter(objeto -> objeto instanceof Product)
+                .map(objeto -> (Product) objeto)
+                .collect(Collectors.toList());
 
-        return products;
+        return listaProducts;
     }
-    
-    public Product findProductById(Long id){
-        return repository.findById(id);
+
+    public Product findProductById(Long id) {
+        return (Product) repository.findById(id);
     }
-    
-    public boolean deleteProduct(Long id){
+
+    public boolean deleteProduct(Long id) {
         return repository.delete(id);
     }
-    
-    public List<Product> findProductByName(String name){
-        return repository.findByName(name);
+
+    public List<Product> findProductByName(String name) {
+        List<Object> listaObjetos = new ArrayList<>();
+        listaObjetos = repository.findByName(name);
+        List<Product> listaProducts = listaObjetos.stream()
+                .filter(objeto -> objeto instanceof Product)
+                .map(objeto -> (Product) objeto)
+                .collect(Collectors.toList());
+        return listaProducts;
     }
 
     public boolean editProduct(Long productId, Product prod) {
-        
+
         //Validate product
-        if (prod == null || prod.getName().isBlank() ) {
+        if (prod == null || prod.getName().isBlank()) {
             return false;
         }
         return repository.edit(productId, prod);

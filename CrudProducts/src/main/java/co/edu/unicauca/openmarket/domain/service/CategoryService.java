@@ -4,31 +4,31 @@
  */
 package co.edu.unicauca.openmarket.domain.service;
 
-import co.edu.unicauca.openmarket.access.ICategoryRepository;
 import co.edu.unicauca.openmarket.domain.Category;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import co.edu.unicauca.openmarket.access.IRepository;
 
 /**
  *
  * @author ideapad330S
  */
 public class CategoryService {
-    
-    private ICategoryRepository repository;
 
-    public CategoryService(ICategoryRepository repository) {
+    private IRepository repository;
+
+    public CategoryService(IRepository repository) {
         this.repository = repository;
     }
-    
-    
-       public boolean saveCategory(String name) {
-        
+
+    public boolean saveCategory(String name) {
+
         Category newCategory = new Category();
         newCategory.setName(name);
-        
+
         //Validate product
-        if (newCategory.getName().isBlank() ) {
+        if (newCategory.getName().isBlank()) {
             return false;
         }
 
@@ -37,28 +37,37 @@ public class CategoryService {
     }
 
     public List<Category> findAllCategories() {
-        List<Category> categories = new ArrayList<>();
-        categories = repository.findAll();
+        List<Object> listaObjetos = new ArrayList<>();
+        listaObjetos = repository.findAll();
+        List<Category> listaCategory = listaObjetos.stream()
+                .filter(objeto -> objeto instanceof Category)
+                .map(objeto -> (Category) objeto)
+                .collect(Collectors.toList());
+        return listaCategory;
+    }
 
-        return categories;
+    public Category findCategoryById(Long id) {
+        return (Category) repository.findById(id);
     }
-    
-    public Category findCategoryById(Long id){
-        return repository.findById(id);
-    }
-    
-    public boolean deleteCategory(Long id){
+
+    public boolean deleteCategory(Long id) {
         return repository.delete(id);
     }
-    
-    public List<Category> findCategoryByName(String name){
-        return repository.findByName(name);
+
+    public List<Category> findCategoryByName(String name) {
+         List<Object> listaObjetos = new ArrayList<>();
+         listaObjetos = repository.findByName(name);
+                List<Category> listaCategory = listaObjetos.stream()
+                .filter(objeto -> objeto instanceof Category)
+                .map(objeto -> (Category) objeto)
+                .collect(Collectors.toList());
+        return listaCategory;
     }
 
     public boolean editCategory(Long categoryId, Category category) {
-        
+
         //Validate category
-        if (category== null || category.getName().isBlank() ) {
+        if (category == null || category.getName().isBlank()) {
             return false;
         }
         return repository.edit(categoryId, category);

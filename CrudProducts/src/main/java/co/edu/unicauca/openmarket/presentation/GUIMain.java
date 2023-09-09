@@ -89,14 +89,14 @@ public class GUIMain extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        IProductRepository repository = Factory.getInstance().getRepositoryProduct("default");
+        IRepository repository = Factory.getInstance().getRepository("product");
         ProductService productService = new ProductService(repository);
         GUIProducts instance = new GUIProducts(productService);
         instance.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ICategoryRepository repository = Factory.getInstance().getRepositoryCategory("default");
+        IRepository repository = Factory.getInstance().getRepository("category");
         CategoryService categoryService = new CategoryService(repository);
         GUICategory instance = new GUICategory(categoryService);
         instance.setVisible(true);
