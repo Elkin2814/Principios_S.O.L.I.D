@@ -9,6 +9,8 @@ package co.edu.unicauca.openmarket.access;
 public class Factory {
 
     private static Factory instance;
+    
+
 
     private Factory() {
     }
@@ -34,16 +36,14 @@ public class Factory {
      * @return una clase hija de la abstracción IProductRepository
      */
     public IRepository getRepository(String type) {
-
         IRepository result = null;
-
         switch (type) {
-            case "product":
-                result = new ProductRepository();
-                break;
-
             case "category":
                 result = new CategoryRepository();
+                break;
+
+            case "product":
+                result = new ProductRepository();
                 break;
         }
         return result;

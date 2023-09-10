@@ -1,4 +1,3 @@
-
 package co.edu.unicauca.openmarket.presentation;
 
 import co.edu.unicauca.openmarket.access.*;
@@ -10,9 +9,12 @@ import co.edu.unicauca.openmarket.domain.service.*;
  */
 public class GUIMain extends javax.swing.JDialog {
 
-    /**
-     * Creates new form GUIMain
-     */
+    private  IRepository repositoryProduct = Factory.getInstance().getRepository("product");
+    private  ProductService productService = new ProductService(repositoryProduct);
+
+    private  IRepository repositoryCategory = Factory.getInstance().getRepository("category");
+    private  CategoryService categoryService = new CategoryService(repositoryCategory);
+
     public GUIMain() {
         initComponents();
     }
@@ -89,19 +91,15 @@ public class GUIMain extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        IRepository repository = Factory.getInstance().getRepository("product");
-        ProductService productService = new ProductService(repository);
         GUIProducts instance = new GUIProducts(productService);
         instance.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        IRepository repository = Factory.getInstance().getRepository("category");
-        CategoryService categoryService = new CategoryService(repository);
+
         GUICategory instance = new GUICategory(categoryService);
         instance.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

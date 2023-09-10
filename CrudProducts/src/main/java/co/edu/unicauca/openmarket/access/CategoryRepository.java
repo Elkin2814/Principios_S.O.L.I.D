@@ -35,7 +35,7 @@ public class CategoryRepository implements IRepository{
             }
             //this.connect();
 
-            String sql = "INSERT INTO category ( name ) "
+            String sql = "INSERT INTO category ( nameCategory ) "
                     + "VALUES ( ? )";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
@@ -60,7 +60,7 @@ public class CategoryRepository implements IRepository{
             //this.connect();
 
             String sql = "UPDATE  category "
-                    + "SET name=? "
+                    + "SET nameCategory =? "
                     + "WHERE categoryId = ?";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
@@ -113,7 +113,7 @@ public class CategoryRepository implements IRepository{
             if (res.next()) {
                 Category categ = new Category();
                 categ.setCategoryId(res.getLong("categoryId"));
-                categ.setName(res.getString("name"));
+                categ.setName(res.getString("nameCategory"));
                 return categ;
             } else {
                 return null;
@@ -131,7 +131,7 @@ public class CategoryRepository implements IRepository{
         try {
              List<Object> categories = new ArrayList<>();
             String sql = "SELECT * FROM category  "
-                    + "WHERE name = ?";
+                    + "WHERE nameCategory  = ?";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
             pstmt.setString(1, name);
@@ -141,7 +141,7 @@ public class CategoryRepository implements IRepository{
             if (res.next()) {
                 Category categ = new Category();
                 categ.setCategoryId(res.getLong("categoryId"));
-                categ.setName(res.getString("name"));
+                categ.setName(res.getString("nameCategory"));
                 categories.add(categ);
                 return categories;
             } else {
@@ -167,8 +167,8 @@ public class CategoryRepository implements IRepository{
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 Category categ = new Category();
-                categ.setCategoryId(rs.getLong("categorytId"));
-                categ.setName(rs.getString("name"));
+                categ.setCategoryId(rs.getLong("categoryId"));
+                categ.setName(rs.getString("nameCategory"));
                 categories.add(categ);
             }
             //this.disconnect();

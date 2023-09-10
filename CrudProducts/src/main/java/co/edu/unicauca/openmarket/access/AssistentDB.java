@@ -16,21 +16,26 @@ import java.util.logging.Logger;
  * @author Elkin
  */
 public class AssistentDB implements IAssistentDB {
-    
+
     private Connection conn;
-    
+
+    public AssistentDB() {
+        connect();
+        initDatabaseProduct();
+        initDataBaseCategory();
+    }
+
     @Override
     public void connect() {
         // SQLite connection string
         //String url = "jdbc:sqlite:./myDatabase.db"; //Para Linux/Mac
         //String url = "jdbc:sqlite:C:/sqlite/db/myDatabase.db"; //Para Windows
-        String url = "jdbc:sqlite::memory:";
 
         try {
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AssistentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -57,40 +62,39 @@ public class AssistentDB implements IAssistentDB {
     @Override
     public void initDatabaseProduct() {
         // SQL statement for creating a new table
-        String sql = "CREATE TABLE IF NOT EXISTS products (\n"
-                + "	productId integer PRIMARY KEY AUTOINCREMENT,\n"
-                + "	name text NOT NULL,\n"
-                + "	description text NULL\n"
-                + ");";
+        String sql ="CREATE TABLE IF NOT EXISTS products (" +
+        "productId INT AUTO_INCREMENT PRIMARY KEY," +
+        "name VARCHAR(20)," +
+        "categoryId INT," +
+        "description VARCHAR(100)" +
+        ");";
 
         try {
             this.connect();
             Statement stmt = conn.createStatement();
-            stmt.execute(sql);
-            //this.disconnect();
+            stmt.executeUpdate(sql);
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AssistentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-     @Override
+
+    @Override
     public void initDataBaseCategory() {
         // SQL statement for creating a new table
-        String sql = "CREATE TABLE IF NOT EXISTS category (\n"
-                + "	categorytId integer PRIMARY KEY AUTOINCREMENT,\n"
-                + "	name text NOT NULL\n"
-                + ");";
-
+        String sql ="CREATE TABLE IF NOT EXISTS category (" +
+        "categoryId INT AUTO_INCREMENT PRIMARY KEY," +
+        "nameCategory VARCHAR(255)" +
+        ")";
         try {
             this.connect();
             Statement stmt = conn.createStatement();
-            stmt.execute(sql);
+            stmt.executeUpdate(sql);
             //this.disconnect();
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AssistentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

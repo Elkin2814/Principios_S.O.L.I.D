@@ -1,6 +1,7 @@
 package co.edu.unicauca.openmarket.presentation;
 
 import co.edu.unicauca.openmarket.domain.Product;
+import co.edu.unicauca.openmarket.domain.service.CategoryService;
 import co.edu.unicauca.openmarket.domain.service.ProductService;
 import co.edu.unicauca.openmarket.infra.Messages;
 import javax.swing.JOptionPane;
@@ -14,12 +15,14 @@ public class GUIProducts extends javax.swing.JFrame {
     private ProductService productService;
     private boolean addOption;
 
+
     /**
      * Creates new form GUIProducts
      */
     public GUIProducts(ProductService productService) {
         initComponents();
         this.productService = productService;
+
         stateInitial();
 
     }
@@ -47,8 +50,9 @@ public class GUIProducts extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtDescription = new javax.swing.JTextArea();
+        txtIdCategory = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtDescription = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Productos");
@@ -114,33 +118,33 @@ public class GUIProducts extends javax.swing.JFrame {
         getContentPane().add(pnlSouth, java.awt.BorderLayout.SOUTH);
 
         pnlCenter.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlCenter.setLayout(new java.awt.GridLayout(3, 2));
+        pnlCenter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("*Id:");
-        pnlCenter.add(jLabel1);
+        jLabel1.setText("idCategory:");
+        pnlCenter.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 80, 101));
 
         txtId.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtIdFocusLost(evt);
             }
         });
-        pnlCenter.add(txtId);
+        pnlCenter.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 2, 190, 101));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Nombre:");
-        pnlCenter.add(jLabel2);
-        pnlCenter.add(txtName);
+        pnlCenter.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 190, 101));
+        pnlCenter.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 101));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Descripción:");
-        pnlCenter.add(jLabel3);
+        pnlCenter.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 190, 101));
+        pnlCenter.add(txtIdCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 190, 101));
 
-        txtDescription.setColumns(20);
-        txtDescription.setRows(5);
-        jScrollPane1.setViewportView(txtDescription);
-
-        pnlCenter.add(jScrollPane1);
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("*Id:");
+        pnlCenter.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 2, 190, 101));
+        pnlCenter.add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 200, 100));
 
         getContentPane().add(pnlCenter, java.awt.BorderLayout.CENTER);
 
@@ -197,7 +201,7 @@ public class GUIProducts extends javax.swing.JFrame {
             txtId.requestFocus();
         } else {
             txtName.setText(prod.getName());
-            txtDescription.setText(prod.getDescription());
+            txtName.setText(prod.getDescription());
         }
     }//GEN-LAST:event_txtIdFocusLost
 
@@ -260,11 +264,12 @@ public class GUIProducts extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlSouth;
-    private javax.swing.JTextArea txtDescription;
+    private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtIdCategory;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
@@ -277,8 +282,8 @@ public class GUIProducts extends javax.swing.JFrame {
         btnSave.setVisible(true);
         btnFind.setVisible(false);
         txtId.setEnabled(false);
-        txtName.setEnabled(true);
         txtDescription.setEnabled(true);
+        txtName.setEnabled(true);
 
     }
 
@@ -291,8 +296,8 @@ public class GUIProducts extends javax.swing.JFrame {
     private void addProduct() {
         String name = txtName.getText().trim();
         String description = txtDescription.getText().trim();
-
-        if (productService.saveProduct(name, description)) {
+        Long idCategory = Long.parseLong(txtIdCategory.getText().trim());
+        if (productService.saveProduct(name, description, idCategory)) {
             Messages.showMessageDialog("Se grabó con éxito", "Atención");
             cleanControls();
             stateInitial();

@@ -1,9 +1,8 @@
-
 package co.edu.unicauca.openmarket.main;
 
 
-import co.edu.unicauca.openmarket.presentation.GUIMain;
 
+import co.edu.unicauca.openmarket.presentation.GUIMain;
 
 /**
  *
@@ -18,5 +17,5 @@ public class Main {
         GUIMain instance = new GUIMain();
         instance.setVisible(true);
     }
-    
+
 }

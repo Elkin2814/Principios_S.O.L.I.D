@@ -1,8 +1,7 @@
 package co.edu.unicauca.openmarket.access;
 
+import co.edu.unicauca.openmarket.domain.Category;
 import co.edu.unicauca.openmarket.domain.Product;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,8 +19,8 @@ import java.util.logging.Logger;
  */
 public class ProductRepository implements IRepository {
 
-    private AssistentDB conn = new AssistentDB();
-    
+
+        private AssistentDB conn = new AssistentDB();
 
     public ProductRepository() {
         conn.initDatabaseProduct();
@@ -37,12 +36,13 @@ public class ProductRepository implements IRepository {
             }
             //this.connect();
 
-            String sql = "INSERT INTO products ( name, description ) "
-                    + "VALUES ( ?, ? )";
+            String sql = "INSERT INTO products ( name, categoryId, description ) "
+                    + "VALUES ( ?, ? ,?)";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
             pstmt.setString(1, newProduct.getName());
-            pstmt.setString(2, newProduct.getDescription());
+            pstmt.setString(2, newProduct.getCategory().getCategoryId().toString());
+            pstmt.setString(3, newProduct.getDescription());
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
@@ -57,7 +57,7 @@ public class ProductRepository implements IRepository {
         List<Object> products = new ArrayList<>();
         try {
 
-            String sql = "SELECT * FROM products";
+            String sql = "SELECT * FROM products JOIN category  ON (products.categoryId = category.categoryId)";
             //this.connect();
 
             Statement stmt = conn.getConn().createStatement();
@@ -67,7 +67,10 @@ public class ProductRepository implements IRepository {
                 newProduct.setProductId(rs.getLong("productId"));
                 newProduct.setName(rs.getString("name"));
                 newProduct.setDescription(rs.getString("description"));
-
+                Category ca = new Category();
+                ca.setCategoryId(rs.getLong("categoryId"));
+                ca.setName(rs.getString("nameCategory"));
+                newProduct.setCategory(ca);
                 products.add(newProduct);
             }
             //this.disconnect();
