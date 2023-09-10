@@ -10,7 +10,8 @@ import co.edu.unicauca.openmarket.domain.service.*;
 public class GUIMain extends javax.swing.JDialog {
 
     private  IRepository repositoryProduct = Factory.getInstance().getRepository("product");
-    private  ProductService productService = new ProductService(repositoryProduct);
+    private ISearch search = Factory.getInstance().getSearch("product");
+    private  ProductService productService = new ProductService(repositoryProduct,search);
 
     private  IRepository repositoryCategory = Factory.getInstance().getRepository("category");
     private  CategoryService categoryService = new CategoryService(repositoryCategory);

@@ -48,4 +48,15 @@ public class Factory {
         }
         return result;
     }
+    
+        public ISearch getSearch(String type) {
+        ISearch result = null;
+        switch (type) {
+            case "product":
+                result = new ProductRepository();
+                break;
+        }
+        return result;
+    }
+    
 }

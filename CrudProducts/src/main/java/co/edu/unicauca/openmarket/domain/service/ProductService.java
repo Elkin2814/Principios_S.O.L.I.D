@@ -2,6 +2,7 @@ package co.edu.unicauca.openmarket.domain.service;
 
 
 import co.edu.unicauca.openmarket.access.IRepository;
+import co.edu.unicauca.openmarket.access.ISearch;
 import co.edu.unicauca.openmarket.domain.Category;
 import co.edu.unicauca.openmarket.domain.Product;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class ProductService {
     // Ahora hay una dependencia de una abstracción, no es algo concreto,
     // no sabe cómo está implementado.
     private IRepository repository;
+    private ISearch search;
 
     /**
      * Inyección de dependencias en el constructor. Ya no conviene que el mismo
@@ -24,8 +26,9 @@ public class ProductService {
      *
      * @param repository una clase hija de IProductRepository
      */
-    public ProductService(IRepository repository) {
+    public ProductService(IRepository repository, ISearch search) {
         this.repository = repository;
+        this.search = search;
     }
 
     public boolean saveProduct(String name, String description, Long idCategory) {
@@ -68,6 +71,16 @@ public class ProductService {
     public List<Product> findProductByName(String name) {
         List<Object> listaObjetos = new ArrayList<>();
         listaObjetos = repository.findByName(name);
+        List<Product> listaProducts = listaObjetos.stream()
+                .filter(objeto -> objeto instanceof Product)
+                .map(objeto -> (Product) objeto)
+                .collect(Collectors.toList());
+        return listaProducts;
+    }
+    
+        public List<Product> findProductByCategory(String name) {
+        List<Object> listaObjetos = new ArrayList<>();
+        listaObjetos = search.findProductByCategory(name);
         List<Product> listaProducts = listaObjetos.stream()
                 .filter(objeto -> objeto instanceof Product)
                 .map(objeto -> (Product) objeto)

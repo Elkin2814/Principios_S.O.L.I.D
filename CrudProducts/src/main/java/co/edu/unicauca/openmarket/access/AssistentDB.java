@@ -84,7 +84,7 @@ public class AssistentDB implements IAssistentDB {
         // SQL statement for creating a new table
         String sql ="CREATE TABLE IF NOT EXISTS category (" +
         "categoryId INT AUTO_INCREMENT PRIMARY KEY," +
-        "nameCategory VARCHAR(255)" +
+        "nameCategory VARCHAR(25)" +
         ")";
         try {
             this.connect();

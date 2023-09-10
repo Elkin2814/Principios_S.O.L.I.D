@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class GUIProductsFind extends javax.swing.JDialog {
 
     private ProductService productService;
-
+    
     /**
      * Creates new form GUIProductsFind
      */
@@ -34,7 +34,7 @@ public class GUIProductsFind extends javax.swing.JDialog {
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Id", "Name", "Description","idCategory"
+                    "Id", "Name", "Description","Category"
                 }
         ));
     }
@@ -57,11 +57,11 @@ public class GUIProductsFind extends javax.swing.JDialog {
         initializeTable();
         DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
 
-        Object rowData[] = new Object[3];//No columnas
+        Object rowData[] = new Object[4];//No columnas
         rowData[0] = pro.getProductId();
         rowData[1] = pro.getName();
         rowData[2] = pro.getDescription();
-
+        rowData[3] = pro.getCategory().getName();
         model.addRow(rowData);
 
     }
@@ -83,6 +83,7 @@ public class GUIProductsFind extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         rdoId = new javax.swing.JRadioButton();
         rdoName = new javax.swing.JRadioButton();
+        rdoCategory = new javax.swing.JRadioButton();
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnSearchAll = new javax.swing.JButton();
@@ -122,6 +123,9 @@ public class GUIProductsFind extends javax.swing.JDialog {
         buttonGroup1.add(rdoName);
         rdoName.setText("Nombre del producto");
         pnlNorth.add(rdoName);
+
+        rdoCategory.setText("Categoria");
+        pnlNorth.add(rdoCategory);
 
         txtSearch.setPreferredSize(new java.awt.Dimension(62, 32));
         pnlNorth.add(txtSearch);
@@ -184,6 +188,8 @@ public class GUIProductsFind extends javax.swing.JDialog {
             }
         } else if (rdoName.isSelected() && !txtSearch.getText().isEmpty()) {
             fillTable(productService.findProductByName(txtSearch.getText().trim()));
+        } else if(rdoCategory.isSelected() && !txtSearch.getText().isEmpty()){
+            fillTable(productService.findProductByCategory(txtSearch.getText().trim()));
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -198,6 +204,7 @@ public class GUIProductsFind extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlNorth;
+    private javax.swing.JRadioButton rdoCategory;
     private javax.swing.JRadioButton rdoId;
     private javax.swing.JRadioButton rdoName;
     private javax.swing.JTable tblProducts;

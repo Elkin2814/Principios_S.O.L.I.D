@@ -4,11 +4,13 @@
  */
 package co.edu.unicauca.openmarket.access;
 
+import java.util.List;
+
 /**
  *
  * @author ideapad330S
  */
 public interface ISearch {
     
-    Object findProductByCategory(String name);
+    List<Object>findProductByCategory(String name);
 }

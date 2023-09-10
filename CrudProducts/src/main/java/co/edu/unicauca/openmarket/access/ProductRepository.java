@@ -17,10 +17,9 @@ import java.util.logging.Logger;
  *
  * @author Libardo, Julio
  */
-public class ProductRepository implements IRepository {
+public class ProductRepository implements IRepository, ISearch {
 
-
-        private AssistentDB conn = new AssistentDB();
+    private AssistentDB conn = new AssistentDB();
 
     public ProductRepository() {
         conn.initDatabaseProduct();
@@ -81,7 +80,6 @@ public class ProductRepository implements IRepository {
         return products;
     }
 
-    
     @Override
     public boolean edit(Long id, Object o) {
         Product product = (Product) o;
@@ -93,13 +91,14 @@ public class ProductRepository implements IRepository {
             //this.connect();
 
             String sql = "UPDATE  products "
-                    + "SET name=?, description=? "
+                    + "SET name=?, description=? , categoryId"
                     + "WHERE productId = ?";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
             pstmt.setString(1, product.getName());
             pstmt.setString(2, product.getDescription());
             pstmt.setLong(3, id);
+            pstmt.setLong(4, product.getCategory().getCategoryId());
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
@@ -136,7 +135,7 @@ public class ProductRepository implements IRepository {
     public Object findById(Long id) {
         try {
 
-            String sql = "SELECT * FROM products  "
+            String sql = "SELECT * FROM products JOIN category  ON (products.categoryId = category.categoryId)  "
                     + "WHERE productId = ?";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
@@ -149,6 +148,10 @@ public class ProductRepository implements IRepository {
                 prod.setProductId(res.getLong("productId"));
                 prod.setName(res.getString("name"));
                 prod.setDescription(res.getString("description"));
+                Category ca = new Category();
+                ca.setCategoryId(res.getLong("categoryId"));
+                ca.setName(res.getString("nameCategory"));
+                prod.setCategory(ca);
                 return prod;
             } else {
                 return null;
@@ -160,12 +163,12 @@ public class ProductRepository implements IRepository {
         }
         return null;
     }
-    
+
     @Override
     public List<Object> findByName(String name) {
         try {
-             List<Object> products = new ArrayList<>();
-            String sql = "SELECT * FROM products  "
+            List<Object> products = new ArrayList<>();
+            String sql = "SELECT * FROM products JOIN category  ON (products.categoryId = category.categoryId) "
                     + "WHERE name = ?";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
@@ -178,6 +181,10 @@ public class ProductRepository implements IRepository {
                 prod.setProductId(res.getLong("productId"));
                 prod.setName(res.getString("name"));
                 prod.setDescription(res.getString("description"));
+                Category ca = new Category();
+                ca.setCategoryId(res.getLong("categoryId"));
+                ca.setName(res.getString("nameCategory"));
+                prod.setCategory(ca);
                 products.add(prod);
                 return products;
             } else {
@@ -191,5 +198,35 @@ public class ProductRepository implements IRepository {
         return null;
     }
 
+    @Override
+    public List<Object> findProductByCategory(String name) {
+        List<Object> products = new ArrayList<>();
+        try {
+
+            String sql = "SELECT * FROM products JOIN category  ON (products.categoryId = category.categoryId)"
+                    + "WHERE category.nameCategory = ?";
+            //this.connect();
+
+            PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Product newProduct = new Product();
+                newProduct.setProductId(rs.getLong("productId"));
+                newProduct.setName(rs.getString("name"));
+                newProduct.setDescription(rs.getString("description"));
+                Category ca = new Category();
+                ca.setCategoryId(rs.getLong("categoryId"));
+                ca.setName(rs.getString("nameCategory"));
+                newProduct.setCategory(ca);
+                products.add(newProduct);
+            }
+            //this.disconnect();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return products;
+    }
 
 }
