@@ -91,19 +91,20 @@ public class ProductRepository implements IRepository, ISearch {
             //this.connect();
 
             String sql = "UPDATE  products "
-                    + "SET name=?, description=? , categoryId"
+                    + "SET name=?, description=? , categoryId=? "
                     + "WHERE productId = ?";
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
             pstmt.setString(1, product.getName());
             pstmt.setString(2, product.getDescription());
-            pstmt.setLong(3, id);
-            pstmt.setLong(4, product.getCategory().getCategoryId());
+            pstmt.setLong(3, product.getCategory().getCategoryId());
+            pstmt.setLong(4, id);
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return false;
     }
@@ -203,7 +204,7 @@ public class ProductRepository implements IRepository, ISearch {
         List<Object> products = new ArrayList<>();
         try {
 
-            String sql = "SELECT * FROM products JOIN category  ON (products.categoryId = category.categoryId)"
+            String sql = "SELECT * FROM products JOIN category  ON (products.categoryId = category.categoryId) "
                     + "WHERE category.nameCategory = ?";
             //this.connect();
 

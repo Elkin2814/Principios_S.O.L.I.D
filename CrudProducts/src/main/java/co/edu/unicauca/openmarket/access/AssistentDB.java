@@ -45,6 +45,7 @@ public class AssistentDB implements IAssistentDB {
             if (conn != null) {
                 conn.close();
             }
+            conn = null;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -69,7 +70,7 @@ public class AssistentDB implements IAssistentDB {
         "description VARCHAR(100)" +
         ");";
 
-        try {
+        try { 
             this.connect();
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
@@ -96,5 +97,7 @@ public class AssistentDB implements IAssistentDB {
             Logger.getLogger(AssistentDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
 }
