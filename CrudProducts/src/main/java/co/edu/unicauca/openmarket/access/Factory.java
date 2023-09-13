@@ -9,7 +9,7 @@ package co.edu.unicauca.openmarket.access;
 public class Factory {
 
     private static Factory instance;
-    
+    private static AssistentDB a = new AssistentDB();
 
 
     private Factory() {

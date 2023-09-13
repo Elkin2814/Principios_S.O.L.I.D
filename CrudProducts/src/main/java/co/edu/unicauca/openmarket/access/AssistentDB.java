@@ -32,7 +32,7 @@ public class AssistentDB implements IAssistentDB {
         //String url = "jdbc:sqlite:C:/sqlite/db/myDatabase.db"; //Para Windows
 
         try {
-            conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+            conn = DriverManager.getConnection("jdbc:h2:mem:testdb");
 
         } catch (SQLException ex) {
             Logger.getLogger(AssistentDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,6 +70,7 @@ public class AssistentDB implements IAssistentDB {
         "description VARCHAR(100)" +
         ");";
 
+        
         try { 
             this.connect();
             Statement stmt = conn.createStatement();

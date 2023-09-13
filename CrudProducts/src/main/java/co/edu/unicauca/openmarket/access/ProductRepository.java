@@ -22,6 +22,7 @@ public class ProductRepository implements IRepository, ISearch {
     private AssistentDB conn = new AssistentDB();
 
     public ProductRepository() {
+        conn.initDataBaseCategory();
         conn.initDatabaseProduct();
     }
 
@@ -40,7 +41,7 @@ public class ProductRepository implements IRepository, ISearch {
 
             PreparedStatement pstmt = conn.getConn().prepareStatement(sql);
             pstmt.setString(1, newProduct.getName());
-            pstmt.setString(2, newProduct.getCategory().getCategoryId().toString());
+            pstmt.setLong(2, newProduct.getCategory().getCategoryId());
             pstmt.setString(3, newProduct.getDescription());
             pstmt.executeUpdate();
             //this.disconnect();
@@ -104,7 +105,7 @@ public class ProductRepository implements IRepository, ISearch {
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
         return false;
     }
@@ -150,13 +151,12 @@ public class ProductRepository implements IRepository, ISearch {
                 prod.setName(res.getString("name"));
                 prod.setDescription(res.getString("description"));
                 Category ca = new Category();
-                ca.setCategoryId(res.getLong("categoryId"));
+                ca.setCategoryId(res.getLong("products.categoryId"));
                 ca.setName(res.getString("nameCategory"));
                 prod.setCategory(ca);
                 return prod;
             } else {
-                
-        return false;
+                return null;
             }
             //this.disconnect();
 

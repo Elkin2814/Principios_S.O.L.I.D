@@ -25,12 +25,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ProductServiceTest {
 
-    
     private IRepository repositoryProduct = Factory.getInstance().getRepository("product");
     private ISearch search = Factory.getInstance().getSearch("product");
-        
-     private ProductService productService = new ProductService(repositoryProduct, search);
-    
+    private ProductService productService = new ProductService(repositoryProduct, search);
+
+    private IRepository repositoryCategory = Factory.getInstance().getRepository("category");
+    private CategoryService categoryService = new CategoryService(repositoryCategory);
+
     public ProductServiceTest() {
     }
 
@@ -67,10 +68,6 @@ public class ProductServiceTest {
         category.setName("Carbohidratos");
         product.setCategory(category);
 
-        IRepository repositoryProduct = Factory.getInstance().getRepository("product");
-        ISearch search = Factory.getInstance().getSearch("product");
-        ProductService productService = new ProductService(repositoryProduct, search);
-
         boolean saved = productService.saveProduct(product.getName(), product.getDescription(), category.getCategoryId());
         assertTrue(saved);
 
@@ -82,9 +79,9 @@ public class ProductServiceTest {
     @Test
     public void testFindAllProducts() {
         System.out.println("findAllProducts");
-        
+
         Category verduras = new Category();
-        verduras.setCategoryId(3L);
+        verduras.setCategoryId(1L);
         verduras.setName("Verduras");
 
         Product producto1 = new Product();
@@ -94,25 +91,21 @@ public class ProductServiceTest {
         producto1.setCategory(verduras);
 
         Product producto2 = new Product();
-        producto2.setProductId(3L);
+        producto2.setProductId(2L);
         producto2.setName("Tomate");
         producto2.setDescription("Es rojo");
         producto2.setCategory(verduras);
 
-        IRepository repositoryProduct = Factory.getInstance().getRepository("product");
-        ISearch search = Factory.getInstance().getSearch("product");
+        boolean saved3 = categoryService.saveCategory(verduras.getName());
         productService = new ProductService(repositoryProduct, search);
-
+        assertTrue(saved3);
         boolean saved = productService.saveProduct(producto1.getName(), producto1.getDescription(), verduras.getCategoryId());
         boolean saved2 = productService.saveProduct(producto2.getName(), producto2.getDescription(), verduras.getCategoryId());
         assertTrue(saved);
         assertTrue(saved2);
-        
-        List<Product> result = productService.findAllProducts();
 
-        assertNotNull(result);
-        System.out.println(result.get(0).getName());
-        //assertEquals(2, result.size());
+        List<Product> result = productService.findAllProducts();
+        assertEquals(2, result.size());
     }
 
     /**
@@ -120,39 +113,26 @@ public class ProductServiceTest {
      */
     @Test
     public void testFindProductById() {
-        
         System.out.println("findProductById");
-        AssistentDB instance = new AssistentDB();
-        instance.initDatabaseProduct();
-        
+        Category category = new Category();
+        Long i = 1L;
+        category.setCategoryId(i);
+        category.setName("Verduras");
+        boolean saved3 = categoryService.saveCategory(category.getName());
+        assertTrue(saved3);
+        Category c = categoryService.findCategoryById(i);
+        assertNotNull(c);
         Product newProduct = new Product();
         newProduct.setName("Tomate");
-        //newProduct.setProductId(1L);
+        newProduct.setProductId(1L);
         newProduct.setDescription("Rojo");
-
-        Product newProduct2 = new Product();
-        newProduct2.setName("Cebolla");
-        newProduct2.setProductId(2L);
-        newProduct2.setDescription("Blanca");
-
-        Category category = new Category();
-        category.setCategoryId(2L);
-        category.setName("Verduras");
         newProduct.setCategory(category);
-        //newProduct2.setCategory(category);
-
-
         boolean saved = productService.saveProduct(newProduct.getName(), newProduct.getDescription(), category.getCategoryId());
         assertTrue(saved);
-
-        //assertEquals(newProduct.getCategory().getCategoryId(), category.getCategoryId());
-
-        Long productId = newProduct.getProductId();
-
-        Product encontrarProducto = productService.findProductById(productId);
-        System.out.println(encontrarProducto.getName());
-        assertNotNull(encontrarProducto);
-        
+        Product p = productService.findProductById(1L);
+        assertNotNull(p);
+        assertEquals(newProduct.getProductId(), p.getProductId());
+        System.out.println(""+ newProduct.getProductId()+":"+ p.getProductId());
     }
 
     /**
