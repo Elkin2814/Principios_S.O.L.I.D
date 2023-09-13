@@ -120,7 +120,7 @@ public class GUICategoryFind extends javax.swing.JDialog {
         pnlNorth.add(rdoId);
 
         buttonGroup1.add(rdoName);
-        rdoName.setText("Nombre del producto");
+        rdoName.setText("Nombre de la categoria");
         pnlNorth.add(rdoName);
 
         txtSearch.setPreferredSize(new java.awt.Dimension(62, 32));

@@ -77,7 +77,7 @@ public class ProductServiceTest {
      * Test of findAllProducts method, of class ProductService.
      */
     @Test
-    public void testFindAllProducts() {
+        public void testFindAllProducts() {
         System.out.println("findAllProducts");
 
         Category verduras = new Category();
