@@ -124,7 +124,13 @@ public class GUIProductsFind extends javax.swing.JDialog {
         rdoName.setText("Nombre del producto");
         pnlNorth.add(rdoName);
 
+        buttonGroup1.add(rdoCategory);
         rdoCategory.setText("Categoria");
+        rdoCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoCategoryActionPerformed(evt);
+            }
+        });
         pnlNorth.add(rdoCategory);
 
         txtSearch.setPreferredSize(new java.awt.Dimension(62, 32));
@@ -192,6 +198,10 @@ public class GUIProductsFind extends javax.swing.JDialog {
             fillTable(productService.findProductByCategory(txtSearch.getText().trim()));
         }
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void rdoCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdoCategoryActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

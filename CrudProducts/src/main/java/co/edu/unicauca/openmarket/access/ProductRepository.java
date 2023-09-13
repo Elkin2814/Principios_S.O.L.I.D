@@ -155,14 +155,15 @@ public class ProductRepository implements IRepository, ISearch {
                 prod.setCategory(ca);
                 return prod;
             } else {
-                return null;
+                
+        return false;
             }
             //this.disconnect();
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return null;
     }
 
     @Override

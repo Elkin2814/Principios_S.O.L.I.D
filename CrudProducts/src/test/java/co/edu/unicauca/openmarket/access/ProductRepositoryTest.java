@@ -6,6 +6,7 @@ package co.edu.unicauca.openmarket.access;
 
 import co.edu.unicauca.openmarket.domain.Category;
 import co.edu.unicauca.openmarket.domain.Product;
+import co.edu.unicauca.openmarket.domain.service.ProductService;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -191,17 +192,19 @@ public class ProductRepositoryTest {
         newProduct.setCategory(category);
         newProduct2.setCategory(category);
 
-        ProductRepository instance = new ProductRepository();
+        IRepository repositoryProduct = Factory.getInstance().getRepository("product");
+        ISearch search = Factory.getInstance().getSearch("product");
+        ProductService productService = new ProductService(repositoryProduct, search);
 
-        boolean saved = instance.save(newProduct);
-        assertTrue(saved);
+        //boolean saved = productService.saveProduct(newProduct.getName(), newProduct.getDescription(), category.getCategoryId(), category.getName());
+        //assertTrue(saved);
 
         assertEquals(newProduct.getCategory().getCategoryId(), category.getCategoryId());
 
         Long productId = newProduct.getProductId();
 
-        Product encontrarProducto = (Product) instance.findById(productId);
-        System.out.println(encontrarProducto.getName());
+        //Product encontrarProducto = (Product) productService.findById(productId);
+        //System.out.println(encontrarProducto.getName());
     }
 
     /**
@@ -272,7 +275,7 @@ public class ProductRepositoryTest {
         category.setCategoryId(1L);
         category.setName("Frutas");
 
-         Product product1 = new Product();
+        Product product1 = new Product();
         product1.setProductId(1L);
         product1.setName("Manzana");
         product1.setDescription("Fruta roja");

@@ -38,7 +38,7 @@ public class ProductService {
         newProduct.setDescription(description);
         Category c = new Category();
         c.setCategoryId(idCategory);
-        c.setName("d");
+        c.setName("Carnes");
         newProduct.setCategory(c);
         //Validate product
         if (newProduct.getName().isBlank()) {
