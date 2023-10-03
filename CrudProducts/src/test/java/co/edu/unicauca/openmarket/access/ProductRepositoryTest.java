@@ -60,8 +60,8 @@ public class ProductRepositoryTest {
         category.setCategoryId(1L);
         category.setName("Carbohidratos");
         product.setCategory(category);
-
-        ProductRepository instance = new ProductRepository();
+        AssistentDB a = new AssistentDB();
+        ProductRepository instance = new ProductRepository(a);
         boolean result = instance.save(product);
         assertTrue(result);
     }
@@ -88,8 +88,8 @@ public class ProductRepositoryTest {
         producto2.setName("Tomate");
         producto2.setDescription("Es rojo");
         producto2.setCategory(verduras);
-
-        ProductRepository instance = new ProductRepository();
+        AssistentDB a = new AssistentDB();
+        ProductRepository instance = new ProductRepository(a);
         boolean saved1 = instance.save(producto1);
         //boolean saved2 = instance.save(producto2);
 
@@ -122,8 +122,8 @@ public class ProductRepositoryTest {
         category.setName("Verduras");
 
         nuevoProducto.setCategory(category);
-
-        ProductRepository instance = new ProductRepository();
+        AssistentDB a = new AssistentDB();
+        ProductRepository instance = new ProductRepository(a);
 
         boolean saved = instance.save(nuevoProducto);
         assertTrue(saved);
@@ -153,8 +153,8 @@ public class ProductRepositoryTest {
         category.setCategoryId(1L);
         category.setName("Verduras");
         producto.setCategory(category);
-
-        ProductRepository instance = new ProductRepository();
+        AssistentDB a = new AssistentDB();
+        ProductRepository instance = new ProductRepository(a);
 
         boolean saved = instance.save(producto);
         assertTrue(saved);
@@ -198,7 +198,6 @@ public class ProductRepositoryTest {
 
         //boolean saved = productService.saveProduct(newProduct.getName(), newProduct.getDescription(), category.getCategoryId(), category.getName());
         //assertTrue(saved);
-
         assertEquals(newProduct.getCategory().getCategoryId(), category.getCategoryId());
 
         Long productId = newProduct.getProductId();
@@ -235,8 +234,8 @@ public class ProductRepositoryTest {
         product3.setName("Plátano");
         product3.setDescription("Fruta amarilla");
         product3.setCategory(category1);
-
-        ProductRepository instance = new ProductRepository();
+        AssistentDB a = new AssistentDB();
+        ProductRepository instance = new ProductRepository(a);
 
         // Guardar los productos en la base de datos
         boolean saved1 = instance.save(product1);
@@ -292,8 +291,8 @@ public class ProductRepositoryTest {
         product3.setName("Plátano");
         product3.setDescription("Fruta amarilla");
         product3.setCategory(category);
-
-        ProductRepository instance = new ProductRepository();
+        AssistentDB a = new AssistentDB();
+        ProductRepository instance = new ProductRepository(a);
 
         boolean saved1 = instance.save(product1);
         boolean saved2 = instance.save(product2);

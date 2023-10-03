@@ -5,6 +5,7 @@
 package co.edu.unicauca.openmarket.access;
 
 import co.edu.unicauca.openmarket.domain.Category;
+import co.edu.unicauca.openmarket.domain.service.CategoryService;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -47,16 +48,16 @@ public class CategoryRepositoryTest {
         System.out.println("save");
         Category categoriaGuardada = new Category();
         categoriaGuardada.setName("Nueva Categoria");
-
-        CategoryRepository instance = new CategoryRepository();
+        AssistentDB a = new AssistentDB();
+        CategoryRepository instance = new CategoryRepository(a);
         boolean guardar = instance.save(categoriaGuardada);
         assertTrue(guardar);
         System.out.println(categoriaGuardada.getCategoryId());
     }
 
     /**
-     * PRUEBA PARA METODO EDIT() 
-     * Verifica que se pueda editar correctamente la categoria
+     * PRUEBA PARA METODO EDIT() Verifica que se pueda editar correctamente la
+     * categoria
      */
     @Test
     public void testEdit() {
@@ -64,8 +65,8 @@ public class CategoryRepositoryTest {
 
         Category categoriaNueva = new Category();
         categoriaNueva.setName("Nueva Categoria");
-
-        CategoryRepository instance = new CategoryRepository();
+        AssistentDB a = new AssistentDB();
+        CategoryRepository instance = new CategoryRepository(a);
         boolean guardada = instance.save(categoriaNueva);
 
         assertTrue(guardada);
@@ -92,16 +93,16 @@ public class CategoryRepositoryTest {
     }
 
     /**
-     * PRUEBA PARA METODO DELETE() 
-     * Verifica que se elimine correctamente una categoria
+     * PRUEBA PARA METODO DELETE() Verifica que se elimine correctamente una
+     * categoria
      */
     @Test
     public void testDelete() {
         System.out.println("delete");
         Category categoriaNueva = new Category();
         categoriaNueva.setName("Categoria Eliminada");
-
-        CategoryRepository instance = new CategoryRepository();
+        AssistentDB a = new AssistentDB();
+        CategoryRepository instance = new CategoryRepository(a);
         boolean saved = instance.save(categoriaNueva);
 
         assertTrue(saved);
@@ -121,16 +122,16 @@ public class CategoryRepositoryTest {
     }
 
     /**
-     * PRUEBA PARA METODO FINDBY() 
-     * Verifica que se pueda encuentrar la categoria por id
+     * PRUEBA PARA METODO FINDBY() Verifica que se pueda encuentrar la categoria
+     * por id
      */
     @Test
     public void testFindById() {
         System.out.println("findById");
         Category categoriaNueva = new Category();
         categoriaNueva.setName("Categoria Encontrada");
-
-        CategoryRepository instance = new CategoryRepository();
+        AssistentDB a = new AssistentDB();
+        CategoryRepository instance = new CategoryRepository(a);
         boolean guardada = instance.save(categoriaNueva);
 
         assertTrue(guardada);
@@ -148,16 +149,16 @@ public class CategoryRepositoryTest {
     }
 
     /**
-     * PRUEBA PARA METODO FINDBYNAME() 
-     * Verifica que se pueda encuentrar la categoria por su nombre
+     * PRUEBA PARA METODO FINDBYNAME() Verifica que se pueda encuentrar la
+     * categoria por su nombre
      */
     @Test
     public void testFindByName() {
         System.out.println("findByName");
         Category categoriaNueva = new Category();
         categoriaNueva.setName("Categoria Encontrada");
-
-        CategoryRepository instance = new CategoryRepository();
+        AssistentDB a = new AssistentDB();
+        CategoryRepository instance = new CategoryRepository(a);
         boolean guardada = instance.save(categoriaNueva);
 
         assertTrue(guardada);
@@ -176,8 +177,8 @@ public class CategoryRepositoryTest {
     }
 
     /**
-     * PRUEBA PARA METODO FINDALL() 
-     * Verifica que se devuelva una lista con las categoria existentes
+     * PRUEBA PARA METODO FINDALL() Verifica que se devuelva una lista con las
+     * categoria existentes
      */
     @Test
     public void testFindAll() {
@@ -186,8 +187,8 @@ public class CategoryRepositoryTest {
         categoria1.setName("Categoria 1");
         Category categoria2 = new Category();
         categoria2.setName("Categoria 2");
-
-        CategoryRepository instance = new CategoryRepository();
+        AssistentDB a = new AssistentDB();
+        CategoryRepository instance = new CategoryRepository(a);
         boolean guardado1 = instance.save(categoria1);
         boolean guardado2 = instance.save(categoria2);
 
@@ -195,7 +196,7 @@ public class CategoryRepositoryTest {
         assertTrue(guardado2);
 
         List<Object> listaCategorias = instance.findAll();
-        
+
         assertNotNull(listaCategorias);
         assertEquals(2, listaCategorias.size());
 
