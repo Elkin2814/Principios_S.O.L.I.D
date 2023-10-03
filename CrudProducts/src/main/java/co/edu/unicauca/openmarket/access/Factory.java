@@ -9,7 +9,6 @@ package co.edu.unicauca.openmarket.access;
 public class Factory {
 
     private static Factory instance;
-    private static AssistentDB a = new AssistentDB();
 
 
     private Factory() {
@@ -37,13 +36,14 @@ public class Factory {
      */
     public IRepository getRepository(String type) {
         IRepository result = null;
+        AssistentDB a = new AssistentDB();
         switch (type) {
             case "category":
-                result = new CategoryRepository();
+                result = new CategoryRepository(a);
                 break;
 
             case "product":
-                result = new ProductRepository();
+                result = new ProductRepository(a);
                 break;
         }
         return result;
@@ -51,9 +51,10 @@ public class Factory {
     
         public ISearch getSearch(String type) {
         ISearch result = null;
+         AssistentDB a = new AssistentDB();
         switch (type) {
             case "product":
-                result = new ProductRepository();
+                result = new ProductRepository(a);
                 break;
         }
         return result;

@@ -19,9 +19,10 @@ import java.util.logging.Logger;
  */
 public class ProductRepository implements IRepository, ISearch {
 
-    private AssistentDB conn = new AssistentDB();
+    private AssistentDB conn;
 
-    public ProductRepository() {
+    public ProductRepository(AssistentDB conn) {
+         this.conn = conn;
         conn.initDataBaseCategory();
         conn.initDatabaseProduct();
     }

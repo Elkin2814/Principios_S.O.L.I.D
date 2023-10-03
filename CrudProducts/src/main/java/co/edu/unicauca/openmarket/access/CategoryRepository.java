@@ -20,9 +20,10 @@ import java.util.logging.Logger;
  */
 public class CategoryRepository implements IRepository{
 
-    private AssistentDB conn = new AssistentDB();
+    private AssistentDB conn;
     
-    public CategoryRepository(){
+    public CategoryRepository(AssistentDB conn){
+        this.conn = conn;
         conn.initDataBaseCategory();
     }
     @Override

@@ -1,6 +1,6 @@
 package co.edu.unicauca.openmarket.presentation;
 
-import co.edu.unicauca.openmarket.access.*;
+
 import co.edu.unicauca.openmarket.domain.service.*;
 
 /**
@@ -9,14 +9,12 @@ import co.edu.unicauca.openmarket.domain.service.*;
  */
 public class GUIMain extends javax.swing.JDialog {
 
-    private  IRepository repositoryProduct = Factory.getInstance().getRepository("product");
-    private ISearch search = Factory.getInstance().getSearch("product");
-    private  ProductService productService = new ProductService(repositoryProduct,search);
+    private  ProductService productService;
+    private  CategoryService categoryService;
 
-    private  IRepository repositoryCategory = Factory.getInstance().getRepository("category");
-    private  CategoryService categoryService = new CategoryService(repositoryCategory);
-
-    public GUIMain() {
+    public GUIMain( ProductService productService , CategoryService categoryService ) {
+        this.productService = productService;
+        this.categoryService = categoryService;
         initComponents();
     }
 
